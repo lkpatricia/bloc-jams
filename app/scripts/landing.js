@@ -15,4 +15,4 @@
    };
  
     $('.selling-points .point').hover(onHoverAction, offHoverAction);
-  });
+  }); 
