@@ -10,6 +10,8 @@
       + '      <br/>'
       + '      X songs'
       + '      <br/>'
+      + '      X:XX Total Length'
+      + '      <br/>'
       + '    </p>'
       + '  </div>'
       + '</div>';
@@ -17,14 +19,17 @@
    return $(template);
  };
 
+
  var updateCollectionView = function() {
    var $collection = $(".collection-container .row");
    $collection.empty();
  
-   for (var i = 0; i < 33; i++) {
+   var rndDisplayNum = Math.floor((Math.random() * 75) + 25);
+ 
+   for (var i = 0; i < rndDisplayNum; i++) {
      var $newThumbnail = buildAlbumThumbnail();
      $collection.append($newThumbnail);
-   }
+   };
  };
 
  if (document.URL.match(/\/collection.html/)) {
