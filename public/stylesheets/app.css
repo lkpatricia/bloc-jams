@@ -6,10 +6,12 @@ body {
   color: white !important;
   min-height: 100%; 
   background: -webkit-radial-gradient(  #2b1339, #380c77);
-  background: radial-gradient(   #2b1339, #380c77);}
+  background: radial-gradient(   #2b1339, #380c77);
+  padding-bottom: 150px;}
 
 body.landing {
-  background: #5b5579; }
+  background: #5b5579; 
+  padding-bottom: 0;}
 
 body.landing .navbar {
   margin-bottom: 0;}
