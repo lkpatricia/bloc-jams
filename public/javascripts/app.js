@@ -188,7 +188,9 @@ require('./album');
   var buildAlbumThumbnail = function() {
     var template =
         '<div class="collection-album-container col-md-2">'
-      + '  <img src="/images/album-placeholder.png"/>'
+      + '  <div class="collection-album-image-container">'
+      + '    <img src="/images/album-placeholder.png"/>'
+      + '  </div>'
       + '  <div class="caption album-collection-info">'
       + '    <p>'
       + '      <a class="album-name" href="/album.html"> Album Name </a>'
@@ -216,7 +218,19 @@ require('./album');
    for (var i = 0; i < rndDisplayNum; i++) {
      var $newThumbnail = buildAlbumThumbnail();
      $collection.append($newThumbnail);
+   }  
+   
+   var onHover = function(event) {
+     $(this).append(buildAlbumOverlay("/album.html"));
    };
+
+   var offHover = function(event) {
+     $(this).find(".collection-album-image-overlay").remove();
+   };
+
+   $collection.find(".collection-album-image-container").hover(onHover, offHover);
+
+
  };
 
  if (document.URL.match(/\/collection.html/)) {
@@ -225,6 +239,24 @@ require('./album');
       updateCollectionView();
    });
  }
+
+
+   var buildAlbumOverlay = function(albumURL) {
+    var template =
+        '<div class="collection-album-image-overlay">'
+      + '  <div class="collection-overlay-content">'
+      + '    <a class="collection-overlay-button" href="' + albumURL + '">'
+      + '      <i class="fa fa-play"></i>'
+      + '    </a>'
+      + '    &nbsp;'
+      + '    <a class="collection-overlay-button">'
+      + '      <i class="fa fa-plus"></i>'
+      + '    </a>'
+      + '  </div>'
+      + '</div>'
+      ;
+    return $(template);
+  };
 });
 
 ;require.register("scripts/landing", function(exports, require, module) {
