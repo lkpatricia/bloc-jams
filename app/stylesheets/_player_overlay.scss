@@ -1,0 +1,15 @@
+.player-overlay {
+  background: rgba(255, 255, 255, .7);
+  background-image:url('/images/placeholder-blur.jpg');
+  background-size: 100% auto;
+  position: fixed;
+  bottom: 150px;
+  left: 0;
+  right: 0;
+  top: 100%;
+  transition: top 350ms ease-in-out;
+
+  &.open {
+    top: 77px;
+  }
+}

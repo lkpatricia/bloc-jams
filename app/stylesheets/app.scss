@@ -1,0 +1,46 @@
+
+@import "_landing";
+@import "_album";
+@import "_collection";
+@import "_player_bar";
+@import "_player_overlay";
+
+html {
+  height: 100%; 
+}
+
+body {
+  font-family: "Open Sans";
+  color: white;
+  min-height: 100%; 
+  background: -webkit-radial-gradient(  #2b1339, #380c77);
+  background: radial-gradient(   #2b1339, #380c77);
+  padding-bottom: 150px;
+
+  h1, h2, h3, h4, h5, p {
+    color: white;
+  }
+}
+
+body.landing {
+  background: #5b5579; 
+  padding-bottom: 0;
+}
+
+body.landing .navbar {
+  margin-bottom: 0;
+}
+
+
+
+.player-header-nav {
+  background-color: rgba(123, 70, 163, .9);
+}  
+
+
+
+
+
+/*# sourceMappingURL=app.css.map*/
+
+/*# sourceMappingURL=app.css.map*/
