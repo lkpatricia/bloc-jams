@@ -128,59 +128,61 @@ require.register("scripts/album", function(exports, require, module) {
  var createSongRow = function(songNumber, songName, songLength) {
    var template =
        '<tr>'
-     + '  <td class="song-number col-md-1" data-song-number = "' + songNumber + '">' + songNumber + '</td>'
+     + '  <td class="song-number col-md-1" data-song-number="' + songNumber + '">' + songNumber + '</td>'
      + '  <td class="col-md-9">' + songName + '</td>'
      + '  <td class="col-md-2">' + songLength + '</td>'
      + '</tr>'
      ;
  
- var $row = $(template);
+  // Instead of returning the row immediately, we'll attach hover
+  // functionality to it first.
+   var $row = $(template);
 
- var onHover = function(event) {
-   songNumberCell = $(this).find(".song-number");
-   songNumber = songNumberCell.data('song-number');
-   if (songNumber !== currentlyPlayingSong) {
-     songNumberCell.html('<a class="album-song-button"><i class = "fa fa-play"></i></a>');
-     };
- };
-
- 
- var offHover = function(event) {
-   songNumberCell = $(this).find(".song-number");
-   songNumber = songNumberCell.data("song-number");
-   if (songNumber !== currentlyPlayingSong) {
-     songNumberCell.html(songNumber);
-   }
- };
-
- var clickHandler = function(event) {
-  songNumber = $(this).data("song-number");
-  
-  if (currentlyPlayingSong !== null) {
-    currentlyPlayingCell = $('.song-number[data-song-number="' + currentlyPlayingSong + '"]');
-    currentlyPlayingCell.html(currentlyPlayingSong);   
-  };  
-
-  if (currentlyPlayingSong !== songNumber) {
-    $(this).html('<a class = "album-song-button"><i class = "fa fa-pause"></i></a>');
-    currentlyPlayingSong = songNumber;
-  }
-
-  else if (currentlyPlayingSong === songNumber) {
-    $(this).html('<a class = "album-song-button"><i class = "fa fa-play"></i></a>');
-    currentlyPlayingSong = null;
+   // Change from a song number to play button when the song isn't playing and we hover over the row.
+  var onHover = function(event) {
+    songNumberCell = $(this).find('.song-number');
+    songNumber = songNumberCell.data('song-number');
+    if (songNumber !== currentlyPlayingSong) {
+      songNumberCell.html('<a class="album-song-button"><i class="fa fa-play"></i></a>');
+    }
   };
-
- };
+ 
+   var offHover = function(event) {
+     songNumberCell = $(this).find('.song-number');
+     songNumber = songNumberCell.data('song-number');
+    if (songNumber !== currentlyPlayingSong) {
+      songNumberCell.html(songNumber);
+    }
+   };
+ 
+    // Toggle the play, pause, and song number based on the button clicked.
+   var clickHandler = function(event) {
+     songNumber = $(this).data('song-number');
  
 
+     if (currentlyPlayingSong !== null) {
+       // Revert to song number for currently playing song because user started playing new song.
+       currentlyPlayingCell = $('.song-number[data-song-number="' + currentlyPlayingSong + '"]');
+       currentlyPlayingCell.html(currentlyPlayingSong);
+     }
+ 
+     if (currentlyPlayingSong !== songNumber) {
+       // Switch from Play -> Pause button to indicate new song is playing.
+       $(this).html('<a class="album-song-button"><i class="fa fa-pause"></i></a>');
+       currentlyPlayingSong = songNumber;
+     }
+     else if (currentlyPlayingSong === songNumber) {
+       // Switch from Pause -> Play button to pause currently playing song.
+       $(this).html('<a class="album-song-button"><i class="fa fa-play"></i></a>');
+       currentlyPlayingSong = null;
+     }
+   };
 
 
 
- $row.find('.song-number').click(clickHandler);
- $row.hover(onHover, offHover);
- return $row;
-
+   $row.find('.song-number').click(clickHandler); 
+   $row.hover(onHover, offHover);
+   return $row;
  };
 
  var changeAlbumView = function(album) {
@@ -213,12 +215,6 @@ require.register("scripts/album", function(exports, require, module) {
  };
 
 
- if (document.URL.match(/\/album.html/)) {
-   $(document).ready(function() {
-      changeAlbumView(albumMarconi);
-   });
- }
-
  var updateSeekPercentage = function($seekBar, event) {
    var barWidth = $seekBar.width();
    var offsetX = event.pageX - $seekBar.offset().left;
@@ -232,42 +228,48 @@ require.register("scripts/album", function(exports, require, module) {
    $seekBar.find('.thumb').css({left: percentageString});
  }
 
+
  var setupSeekBars = function() {
  
    $seekBars = $('.player-bar .seek-bar');
    $seekBars.click(function(event) {
      updateSeekPercentage($(this), event);
    });
+
+  $seekBars.find('.thumb').mousedown(function(event){
+    var $seekBar = $(this).parent();
+
+    $seekBar.addClass('no-animate');
+
+ 
+    $(document).bind('mousemove.thumb', function(event){
+      updateSeekPercentage($seekBar, event);
+    });
+ 
+    //cleanup
+    $(document).bind('mouseup.thumb', function(){
+      $seekBar.removeClass('no-animate');
+
+      $(document).unbind('mousemove.thumb');
+      $(document).unbind('mouseup.thumb');
+    });
+ 
+  });   
  
  };
 
-   $seekBars.find('.thumb').mousedown(function(event){
-     var $seekBar = $(this).parent();
 
-     $seekBar.addClass('no-animate');     
- 
-     $(document).bind('mousemove.thumb', function(event){
-       updateSeekPercentage($seekBar, event);
+// This 'if' condition is used to prevent the jQuery modifications
+// from happening on non-Album view pages.
+//  - Use a regex to validate that the url has "/album" in its path.
+if (document.URL.match(/\/album.html/)) {
+ // Wait until the HTML is fully processed.
+ $(document).ready(function() {
+       changeAlbumView(albumMarconi);   
+       setupSeekBars();
      });
- 
-     //cleanup
-     $(document).bind('mouseup.thumb', function(){ 
-        $seekBar.removeClass('no-animate');
 
-       $(document).unbind('mousemove.thumb');
-       $(document).unbind('mouseup.thumb');
-     });
- 
-   });
-
-
- if (document.URL.match(/\/album.html/)) {
-  // Wait until the HTML is fully processed.
-  $(document).ready(function() {
-    changeAlbumView(albumPicasso)
-     setupSeekBars();
-  });
-}
+ }
 });
 
 ;require.register("scripts/app", function(exports, require, module) {
