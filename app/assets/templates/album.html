@@ -1,0 +1,110 @@
+<h1> Album Template </h1>
+
+
+
+  <body class = "player">
+
+      <nav class='player-header-nav navbar'>
+       <div class='container'>
+         <div class='navbar-header'> <!-- Nav Bar -->
+           <a class='logo navbar-left'>
+             <img src="/images/blocjams.png">
+           </a>
+         </div>
+       </div>
+     </nav>
+ 
+ <div class='album-container container'>
+ +  <div class='album-header-container row'> <!-- Album Header -->
+ +    <div class='col-md-3'> <!-- Album Image -->
+ +      <img ng-src="{{ album.albumArtUrl}}" />
+ +    </div>
+ +
+ +    <div class='album-header-information col-md-8 col-md-push-1'> <!-- Album Information -->
+ +      <h3 class='album-title'> {{ album.name }}</h3>
+ +      <h4 class='album-artist'> {{ album.artist }} </h4>
+ +      <h5 class='album-meta-info'> {{ album.year }} on {{ album.label }} </h5>
+ +    </div>
+ +  </div>
+ +
+ +  <div class='row'> <!-- Song table -->
+ +    <table class='album-song-listing table'>
+ +    </table>
+ +  </div>
+ +</div>
+
+        <tr ng-repeat="song in album.songs" ng-mouseenter="onHoverSong(song)" ng-mouseleave="offHoverSong(song)">
+         <td>
+           <span ng-switch="getSongState(song)">
+             <span ng-switch-when="playing">
+               <a class="album-song-button">
+                 <i class="fa fa-pause"></i>
+               </a>
+             </span>
+             <span ng-switch-when="hovered">
+               <a class="album-song-button">
+                 <i class="fa fa-play"></i>
+               </a>
+             </span>
+             <span ng-switch-default>
+               {{ $index + 1 }}
+             </span>
+           </span>
+         <td>
+         <td class="col-md-9"> {{ song.name }} </td>
+         <td class="col-md-2"> {{ song.length }} </td>
+       </tr>
+
+     <!-- Overlay for queue/currently playing album -->
+     <div class="player-overlay">
+     </div>
+     
+
+     <div class='player-bar'>
+       <div class='container'>
+         <div class='play-controls player-bar-control-group left-controls'>
+           <a class='previous'>
+             <i class='fa fa-backward'></i>
+           </a>
+           <a class='play-pause'>
+             <i class='fa fa-play'></i>
+           </a>
+           <a class='next'>
+             <i class='fa fa-forward'></i>
+           </a>
+         </div>
+ 
+         <div class='currently-playing player-bar-control-group'>
+           <h2 class='song-name'>My Song Name Here</h2>
+           <div class='seek-control'>
+             <div class='seek-bar'>
+               <div class='fill'></div>
+               <div class='thumb'></div>
+             </div>
+             <div class='current-time'>2:30</div>
+             <div class='total-time'>4:45</div>
+           </div>
+           <h3 class='artist-name'>Fallout Boy</h3>
+         </div>
+ 
+         <div class='right-controls player-bar-control-group'>
+           <div class='volume' >
+             <i class='fa fa-volume-up'></i>
+             <div class='seek-bar'>
+               <div class='fill'></div>
+               <div class='thumb'></div>
+             </div>
+           </div>
+ 
+           <div class='queue-toggle'>
+             <a>
+               <i class='fa fa-list-ul'></i>
+             </a>
+           </div>
+         </div>
+       </div>
+     </div>
+
+  </body>
+
+</html>
