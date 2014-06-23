@@ -33,6 +33,7 @@
 .table.album-song-listing {
   // Override the font for the entire table.
   font-weight: 300;
+  color: white;
 }
 
 
@@ -40,6 +41,7 @@
 .table.album-song-listing  td {
   padding: 20px;
   border-top: 1px solid rgba(255, 255, 255, .4);
+  color: white;
 }
 
 .album-song-button {
