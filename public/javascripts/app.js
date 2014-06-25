@@ -310,12 +310,11 @@ if (document.URL.match(/\/album.html/)) {
      templateUrl: '/templates/landing.html'
    });
 
-   // $stateProvider.state('song', {
-   //   url: '/',
-   //   controller: 'Song.controller',
-   //   templateUrl: '/templates/song.html'
-   // });
-
+   $stateProvider.state('profile', {
+     url: '/',
+     controller: 'Profile.controller',
+     templateUrl: '/templates/profile.html'
+   });
  
    $stateProvider.state('collection', {
      url: '/collection',
@@ -336,6 +335,15 @@ if (document.URL.match(/\/album.html/)) {
  blocJams.controller('Landing.controller', ['$scope', function($scope) {
 
    $scope.subText = "Turn the music up!";
+ 
+   $scope.subTextClicked = function() {
+     $scope.subText += '!';
+   };
+ }]);
+
+ blocJams.controller('Profile.controller', ['$scope', function($scope) {
+
+   $scope.subText = "Your Jam Preferences";
  
    $scope.subTextClicked = function() {
      $scope.subText += '!';
