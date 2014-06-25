@@ -233,7 +233,7 @@ blocJams.service('SongPlayer', ['$rootScope', function($rootScope) {
     this.play();
      }
    };
- });
+ }]);
 
  
  blocJams.directive('slider', ['$document', function($document){
